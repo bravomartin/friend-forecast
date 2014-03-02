@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!-- built from http://html5boilerplate.com/ -->
+
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    </head>
+    <body>
+
+        <!-- <p>Hello world! This is HTML5 Boilerplate.</p> -->
+        <h1>FRIENDFORECAST</h1>
+        <nav>
+            <ul>
+                <li class="selected">tomorrow</li>
+                <li>this weekend</li>
+                <li>next week</li>
+            </ul>
+        </nav>
+    
+        <div  id="content">
+            <div id="loading">loading<span id="count">...</span></div>
+            <div id="list"></div>
+            <div id="detail"></div>
+
+        </div>
+            
+        
+
+  
+
+        <script type="text/template" id="listTemplate">
+            <table>
+                <% _.each(cities, function(city) { %>
+                <tr class="temp<%=Math.floor(city.tomorrow.max/10)%>0s" id="<%=city.id%>" >
+                <td class="cityName"><%= city.name.replace(/(.+),/, '<h3>$1, </h3>') %></td>        
+                <td class="friendsList"><%= city.friendsList %></td>
+                <td class="forecast"><h3><%= city.tomorrow.weather %></h3>
+                 <%=Math.round(city.tomorrow.min)%> - <%=Math.round(city.tomorrow.max)%>&deg; F</td>
+
+                </tr>
+                <% }); %>
+            </table>   
+        </script>
+
+
+
+
+        <script type="text/template" id="detailTemplate">
+        <div class=" container temp<%=Math.floor(city.tomorrow.max/10)%>0s" id="<%=city.id%>" >
+            <div id="city">
+                <%= city.name.replace(/(.+),/, '<h2>$1, </h2>') %>
+            
+            <h2><%= city.tomorrow.weather%></h2>
+            <div>Temp: <%=Math.round(city.tomorrow.min)%> - <%=Math.round(city.tomorrow.max)%>&deg; F</div>
+            <div><%= city.forecast[1].humidity %> H</div>
+            </div>
+            <table>
+                <% _.each(city.friends, function(friend) { %>
+                    <tr>
+                        <td class="friendName"><h3><%=friend.name%><h3></td>        
+                        <td class="message">message</td>
+                    </tr>
+                <% }); %>
+             </table>   
+             <div id="actions">
+                <a href='#' class='button'>Announce your trip!</a>
+             </div>
+             
+
+        </div>
+
+        
+        </script>
+
+
+
+
+
+
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
+        <script src="js/vendor/underscore.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

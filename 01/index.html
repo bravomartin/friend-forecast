@@ -1,0 +1,55 @@
+<html>
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <!-- <link rel="stylesheet" href="style.css" /> -->
+  <title>Facebook Example</title>
+  <script>
+    $(document).ready(function() {
+     $.ajaxSetup({ cache: true });
+     $.getScript('//connect.facebook.net/en_UK/all.js', function(){
+      FB.init({
+        appId: '1393591570909609',
+      });
+      FB.login(function(){}, {scope: 'publish_actions,friends_hometown,friends_location'});      
+      FB.getLoginStatus(function (response) {
+        if (response.authResponse) {
+          var accessToken = response.authResponse.accessToken;    
+
+          FB.api('/me/friends', {accessToken: accessToken, fields: 'name,location'}, function(response) {  
+            // console.log(response);
+            var friends = response.data;
+            // console.log(friends[0]);
+            var sample = Math.min(friends.length, 40);
+            for (var i = 0; i < sample; i++) {
+              if(typeof(friends[i].location) != 'undefined'){
+                // console.log(friends[i].name + ';' + friends[i].location.name);  
+                // console.log(friends[i].location);  
+                $.ajax({
+                  url: "http://api.openweathermap.org/data/2.5/forecast/daily?units=imperial&cnt=2&q=" + friends[i].location.name + '&' + i
+                }).done(function(response) {
+                  if(typeof(friends[i].location) != 'undefined'){
+                    i  = this.url.match(/\d+$/)[0];
+                    console.log('---------');
+                    // console.log(response.list[1]);
+                    console.log(friends[i].name);
+                    console.log( friends[i].location.name + ' / '+ response.city.name +', ' + response.city.country);
+                    console.log(response.list[1].weather[0].main +', ' + response.list[1].temp.min + ' - ' +  response.list[1].temp.max + 'º F');
+                    console.log(response.list[1])
+                  }
+                });
+                
+                
+              }
+            };
+          });
+
+        } else {
+          console.log('Facebook authorization failed!');
+        }
+      });
+
+
+   });
+   });
+  </script>
+</head>
