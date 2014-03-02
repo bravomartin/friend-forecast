@@ -13,14 +13,16 @@
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
-        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
 
     </head>
     <body>
 
         <!-- <p>Hello world! This is HTML5 Boilerplate.</p> -->
         <h1>FRIENDFORECAST</h1>
+        
         <nav>
+            <p>When are you travelling?</p>
             <ul>
                 <li class="selected">tomorrow</li>
                 <li>this weekend</li>
@@ -32,15 +34,17 @@
             <div id="loading">loading<span id="count">...</span></div>
             <div id="list"></div>
             <div id="detail"></div>
-
         </div>
             
-        
-
   
 
         <script type="text/template" id="listTemplate">
             <table>
+                <thead>
+                    <th class="cityName">City</th>        
+                    <th class="friendsList">Friends</th>
+                    <th class="forecast">Weather</th>
+                </thead>
                 <% _.each(cities, function(city) { %>
                 <tr class="temp<%=Math.floor(city.tomorrow.max/10)%>0s" id="<%=city.id%>" >
                 <td class="cityName"><%= city.name.replace(/(.+),/, '<h3>$1, </h3>') %></td>        
@@ -49,6 +53,7 @@
                  <%=Math.round(city.tomorrow.min)%> - <%=Math.round(city.tomorrow.max)%>&deg; F</td>
 
                 </tr>
+
                 <% }); %>
             </table>   
         </script>
@@ -62,7 +67,7 @@
                 <%= city.name.replace(/(.+),/, '<h2>$1, </h2>') %>
             
             <h2><%= city.tomorrow.weather%></h2>
-            <div>Temp: <%=Math.round(city.tomorrow.min)%> - <%=Math.round(city.tomorrow.max)%>&deg; F</div>
+            <div><%=Math.round(city.tomorrow.min)%> - <%=Math.round(city.tomorrow.max)%>&deg; F</div>
             <div><%= city.forecast[1].humidity %> H</div>
             </div>
             <table>

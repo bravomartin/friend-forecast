@@ -16,10 +16,11 @@ http://openweathermap.org/wiki/API/Weather_Condition_Codes#Weather_Condition_Cod
 
 var FF = {};
 
-//an object to store app data.
+//an object to store app config data.
 FF.config = {}
 FF.config.appId = '1393591570909609';
-
+FF.config.debug = true;
+FF.config.sampleSize = 50;
 
 //arrays to store my friends and the cities.
 FF.friends = [];
@@ -54,30 +55,38 @@ https://developers.facebook.com/docs/facebook-login/permissions#reference-extend
           var friends = response.data;
           var total = 0;
           var done = 0;
-          // var sample = Math.min(friends.length, 100);
-          var sample = friends.length;
+          var apiCalls = 0;
+          var sample = (FF.config.debug) ? FF.config.sampleSize : friends.length;
           for (var i = 0; i < sample; i++) {
             if(typeof(friends[i].location) != 'undefined'){
               total += 1;
-            $.ajax({
+
+              $.ajax({
                   url: "http://api.openweathermap.org/data/2.5/forecast/daily?units=imperial&cnt=2&q=" + friends[i].location.name + '&' + i
                 }).done(function(response) {
                     done +=1;
                    if(typeof(response.list) != 'undefined'){
                       i  = this.url.match(/\d+$/)[0];
                       friends[i].forecast = response.list;
+                      console.log(response);
+
+                      // add this new city to the colleciton of already-searched cities
+                      FF.forecasts[friends[i].location.id] = response.list;
+                      
                       //only keep the people that is not in my hometown, nor in my current city.
                       if (FF.config.me.hometown.id !== friends[i].location.id && FF.config.me.location.id !== friends[i].location.id ) {
-                        FF.friends.push(friends[i]);  
+                        FF.friends.push(friends[i]);
                         console.log(total + ' - ' + done );
-                        $('#count').text(' ' + done + '/' + total);
+                        $('#count').text(' ' + done + '/' + total + ' ' + 'friends.');
                       }
-                      
-                      
+
                     }
-                    if(done >= total) { $('body').trigger('friendsLoaded'); }
-              
+                    if(done >= total) { 
+                      $('body').trigger('friendsLoaded'); 
+                      $('#loading').text('Ready!');
+                    }
                 });
+
             } 
           }
         });
@@ -87,7 +96,6 @@ https://developers.facebook.com/docs/facebook-login/permissions#reference-extend
   });
 });
 }
-
 
 
 
@@ -115,7 +123,7 @@ FF.groupFriendsByCity = function(){
 
 
 
-
+// Functions to generate the templates and display the views.
 
 FF.listCities = function(){
   var list = $('#listTemplate').html();
@@ -150,9 +158,12 @@ FF.cityDetail = function(id){
 
 
 
+// lets initialize this thing.
+
 $(document).ready(function() {
 
   FF.loadFriends();
+
   // when data has finished loading, display in screen.
   $('body').on({
     'friendsLoaded' : function(){
@@ -162,8 +173,9 @@ $(document).ready(function() {
     }
   });
 
+
   // navigation handlers
-  $('h1, nav a').on({ 
+  $('h1').on({ 
     'click' : function(){
       $('#detail').hide();      
       $('#list').show();      

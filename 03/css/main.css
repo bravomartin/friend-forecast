@@ -62,7 +62,9 @@ textarea {
 
 body{
     font-family: 'Montserrat', Helvetica, Arial, Sans-Serif;
-   
+   -webkit-font-smoothing: antialiased;
+   font-size: 1em;
+   line-height: 1.2;
 }
 
 h1 {
@@ -85,20 +87,30 @@ nav {
     z-index: 10;
     top: 80px;
     width: 100%;
-    height: 40px;
+    height: 90px;
+    
+}
+
+nav p {
+    margin: 5px 0 0 0;
+    text-align: center;
+
 }
 
 nav ul {
-    text-align: center;
-    margin: 10px;
+    font-size: 1.5em;
+    position: absolute;
+    width: 1000px;
+    left: 50%;
+    margin: 8px 0;
+    margin-left: -120px;
 }
 nav li {
     display: inline;
-    font-weight: bold;
     text-transform: uppercase;
     text-decoration: none;
     color: #888;
-
+    padding: 0 20px;
     cursor: pointer;
 }
 nav li.selected {
@@ -106,21 +118,28 @@ nav li.selected {
 }
 
 
+/*GENERAL STYLES TO CONTENT*/
+
+
+
 #content {
-    margin-top: 120px;
-    font-size: 13px;
-    color: #fff;
+    margin-top: 180px;
 }
+
+
 #content #loading {
     color: #000;
     text-align: center;
     margin-top:180px;
-    font-size: 18px;
+    font-size: 1.5em;
     text-transform: uppercase;
 }
 #content h3 {
-    font-size: 18px;
+    font-size: 20px;
 }
+
+
+/*COLOR CODES*/
 
 .temp00s {background-color: #6838CD; }
 .temp10s {background-color: #5f61e6; }
@@ -135,14 +154,21 @@ nav li.selected {
 .temp100s {background-color: #ff615f; }
 
 
-#list td {
-    cursor: pointer;
-}
 
-td {
+/*LISTS*/
+
+
+td, th {
     padding: 15px 5px;
     vertical-align: top;
-
+    text-align: left;
+}
+th {
+    color: #000;
+}
+td {
+    cursor: pointer;
+    color: #fff;
 
 }
 
@@ -152,25 +178,31 @@ td.city {
 td.forecast {
     width: 20%;
 }
-
 tr h3 {
     margin: 0;
 }
 
 
+
+
+/*DETAIL PAGE*/
+
 #detail .container {
     margin: 0;
     padding-bottom: 50px;
     min-height: 100%;
+    color: #fff;
+
 }
 
 #detail #city {
-    font-size: 18px;
+    font-size: 1.5em;
     padding-left: 5px; 
     margin-bottom: 40px;
+    padding-top: 20px;
 }
 #detail h2 {
-    font-size: 40px;
+    font-size: 2.5em;
     margin: 0;
 }
 
@@ -194,6 +226,9 @@ td.message:hover{
 }
 
 
+
+/*ACTIONS*/
+
 #actions {
     margin: 20px 0;
     text-align: center;
@@ -203,7 +238,7 @@ td.message:hover{
 .button {
     text-decoration: none;
     color: #fff;
-    font-size: 18px;
+    font-size: 1.5em;
     margin: 30px;
     text-align: center;
     border: 2px solid #ffffff;
@@ -234,8 +269,10 @@ td.message:hover{
    Media Queries
    ========================================================================== */
 
-@media only screen and (min-width: 35em) {
-
+@media only screen and (min-width: 1000px) {
+    body {
+        font-size: 1.5em;
+    }
 }
 
 @media print,
